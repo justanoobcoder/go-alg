@@ -34,11 +34,21 @@ func TestBubbleSort(t *testing.T) {
 	runTest(t, sort.BubbleSort)
 }
 
+func TestSelectionSort(t *testing.T) {
+	runTest(t, sort.SelectionSort)
+}
+
 // BENCHMARKS
 
 func BenchmarkBubbleSort(b *testing.B) {
 	runBenchmark(b, sort.BubbleSort)
 }
+
+func BenchmarkSelectionSort(b *testing.B) {
+	runBenchmark(b, sort.SelectionSort)
+}
+
+// PRE-TEST
 
 type Test struct {
 	name     string
