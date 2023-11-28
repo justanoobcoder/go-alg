@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func runSortTest(t *testing.T, sortFunc func([]int) []int) {
+func runTest(t *testing.T, sortFunc func([]int) []int) {
 	tests := getTests()
 
 	for _, test := range tests {
@@ -18,8 +18,26 @@ func runSortTest(t *testing.T, sortFunc func([]int) []int) {
 	}
 }
 
+func runBenchmark(b *testing.B, sortFunc func([]int) []int) {
+	tests := getTests()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		for _, test := range tests {
+			sortFunc(test.input)
+		}
+	}
+}
+
+// TESTS
+
 func TestBubbleSort(t *testing.T) {
-	runSortTest(t, sort.BubbleSort)
+	runTest(t, sort.BubbleSort)
+}
+
+// BENCHMARKS
+
+func BenchmarkBubbleSort(b *testing.B) {
+	runBenchmark(b, sort.BubbleSort)
 }
 
 type Test struct {
