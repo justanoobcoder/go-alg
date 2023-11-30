@@ -124,3 +124,114 @@ func TestIsSubsetOf(t *testing.T) {
 	assert.True(t, s1.IsSubsetOf(s2))
 	assert.False(t, s1.IsSubsetOf(s3))
 }
+
+func TestUnion(t *testing.T) {
+	table := []struct {
+		name     string
+		s1       Set
+		s2       Set
+		expected Set
+	}{
+		{
+			name:     "union of disjoint sets",
+			s1:       New(1, 2, 3),
+			s2:       New(4, 5, 6),
+			expected: New(1, 2, 3, 4, 5, 6),
+		},
+		{
+			name:     "union of overlapping sets",
+			s1:       New(1, 2, 3),
+			s2:       New(3, 4, 5),
+			expected: New(1, 2, 3, 4, 5),
+		},
+		{
+			name:     "union of same sets",
+			s1:       New(1, 2, 3),
+			s2:       New(1, 2, 3),
+			expected: New(1, 2, 3),
+		},
+	}
+	for _, test := range table {
+		t.Run(test.name, func(t *testing.T) {
+			s := test.s1.Union(test.s2)
+			assert.Equal(t, test.expected.Size(), s.Size())
+			for _, n := range test.expected.GetItems() {
+				assert.True(t, s.Contains(n))
+			}
+		})
+	}
+}
+
+func TestIntersection(t *testing.T) {
+	table := []struct {
+		name     string
+		s1       Set
+		s2       Set
+		expected Set
+	}{
+		{
+			name:     "intersection of disjoint sets",
+			s1:       New(1, 2, 3),
+			s2:       New(4, 5, 6),
+			expected: New(),
+		},
+		{
+			name:     "intersection of overlapping sets",
+			s1:       New(1, 2, 3),
+			s2:       New(3, 4, 5),
+			expected: New(3),
+		},
+		{
+			name:     "intersection of same sets",
+			s1:       New(1, 2, 3),
+			s2:       New(1, 2, 3),
+			expected: New(1, 2, 3),
+		},
+	}
+	for _, test := range table {
+		t.Run(test.name, func(t *testing.T) {
+			s := test.s1.Intersection(test.s2)
+			assert.Equal(t, test.expected.Size(), s.Size())
+			for _, n := range test.expected.GetItems() {
+				assert.True(t, s.Contains(n))
+			}
+		})
+	}
+}
+
+func TestDifference(t *testing.T) {
+	table := []struct {
+		name     string
+		s1       Set
+		s2       Set
+		expected Set
+	}{
+		{
+			name:     "difference of disjoint sets",
+			s1:       New(1, 2, 3),
+			s2:       New(4, 5, 6),
+			expected: New(1, 2, 3),
+		},
+		{
+			name:     "difference of overlapping sets",
+			s1:       New(1, 2, 3),
+			s2:       New(3, 4, 5),
+			expected: New(1, 2),
+		},
+		{
+			name:     "difference of same sets",
+			s1:       New(1, 2, 3),
+			s2:       New(1, 2, 3),
+			expected: New(),
+		},
+	}
+	for _, test := range table {
+		t.Run(test.name, func(t *testing.T) {
+			s := test.s1.Difference(test.s2)
+			assert.Equal(t, test.expected.Size(), s.Size())
+			for _, n := range test.expected.GetItems() {
+				assert.True(t, s.Contains(n))
+			}
+		})
+	}
+}

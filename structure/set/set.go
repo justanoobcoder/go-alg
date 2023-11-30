@@ -7,6 +7,9 @@ type Set interface {
 	Add(n int)
 	Delete(n int)
 	IsSubsetOf(other Set) bool
+	Union(other Set) Set
+	Intersection(other Set) Set
+	Difference(other Set) Set
 }
 
 type set struct {
@@ -61,4 +64,45 @@ func (s *set) IsSubsetOf(other Set) bool {
 	}
 
 	return true
+}
+
+func (s *set) Union(other Set) Set {
+	union := New()
+	for _, n := range s.GetItems() {
+		union.Add(n)
+	}
+	for _, n := range other.GetItems() {
+		union.Add(n)
+	}
+	return union
+}
+
+func (s *set) Intersection(other Set) Set {
+	result := New()
+	var minSet, maxSet Set
+	if s.Size() < other.Size() {
+		minSet = s
+		maxSet = other
+	} else {
+		minSet = other
+		maxSet = s
+	}
+	for _, n := range minSet.GetItems() {
+		if maxSet.Contains(n) {
+			result.Add(n)
+		}
+	}
+
+	return result
+}
+
+func (s *set) Difference(other Set) Set {
+	result := New()
+	for n := range s.elements {
+		if !other.Contains(n) {
+			result.Add(n)
+		}
+	}
+
+	return result
 }
