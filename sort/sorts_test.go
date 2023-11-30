@@ -42,6 +42,10 @@ func TestInsertionSort(t *testing.T) {
 	runTest(t, sort.InsertionSort)
 }
 
+func TestQuickSort(t *testing.T) {
+	runTest(t, sort.QuickSort)
+}
+
 // BENCHMARKS
 
 func BenchmarkBubbleSort(b *testing.B) {
@@ -54,6 +58,10 @@ func BenchmarkSelectionSort(b *testing.B) {
 
 func BenchmarkInsertionSort(b *testing.B) {
 	runBenchmark(b, sort.InsertionSort)
+}
+
+func BenchmarkQuickSort(b *testing.B) {
+	runBenchmark(b, sort.QuickSort)
 }
 
 // PRE-TEST
