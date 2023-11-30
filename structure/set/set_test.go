@@ -1,8 +1,9 @@
-package set
+package set_test
 
 import (
 	"testing"
 
+	"github.com/justanoobcoder/go-alg/structure/set"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -10,7 +11,7 @@ import (
 
 func TestNew(t *testing.T) {
 	items := []int{1, 2, 3, 4}
-	s := New(items...)
+	s := set.New(items...)
 	assert.Equal(t, len(items), s.Size())
 	for _, n := range items {
 		assert.True(t, s.Contains(n))
@@ -20,7 +21,7 @@ func TestNew(t *testing.T) {
 
 func TestGetItems(t *testing.T) {
 	data := []int{1, 2, 3, 4}
-	s := New(data...)
+	s := set.New(data...)
 	items := s.GetItems()
 	assert.Equal(t, len(data), len(items))
 	for _, n := range data {
@@ -48,7 +49,7 @@ func TestContains(t *testing.T) {
 	}
 	for _, test := range table {
 		t.Run(test.name, func(t *testing.T) {
-			s := New(data...)
+			s := set.New(data...)
 			assert.Equal(t, test.expected, s.Contains(test.input))
 		})
 	}
@@ -56,7 +57,7 @@ func TestContains(t *testing.T) {
 
 func TestSize(t *testing.T) {
 	data := []int{1, 2, 3, 4}
-	s := New(data...)
+	s := set.New(data...)
 	assert.Equal(t, len(data), s.Size())
 }
 
@@ -80,7 +81,7 @@ func TestAdd(t *testing.T) {
 	}
 	for _, test := range table {
 		t.Run(test.name, func(t *testing.T) {
-			s := New(data...)
+			s := set.New(data...)
 			s.Add(test.input)
 			assert.Equal(t, len(test.expected), s.Size())
 			for _, n := range test.expected {
@@ -110,7 +111,7 @@ func TestDelete(t *testing.T) {
 	}
 	for _, test := range table {
 		t.Run(test.name, func(t *testing.T) {
-			s := New(data...)
+			s := set.New(data...)
 			s.Delete(test.input)
 			assert.Equal(t, len(test.expected), s.Size())
 			assert.False(t, s.Contains(test.input))
@@ -119,7 +120,7 @@ func TestDelete(t *testing.T) {
 }
 
 func TestIsSubsetOf(t *testing.T) {
-	s1, s2, s3 := New(1, 2, 3), New(1, 2, 3, 4, 5), New(9, 10, 5, 8)
+	s1, s2, s3 := set.New(1, 2, 3), set.New(1, 2, 3, 4, 5), set.New(9, 10, 5, 8)
 	assert.False(t, s2.IsSubsetOf(s1))
 	assert.True(t, s1.IsSubsetOf(s2))
 	assert.False(t, s1.IsSubsetOf(s3))
@@ -128,27 +129,27 @@ func TestIsSubsetOf(t *testing.T) {
 func TestUnion(t *testing.T) {
 	table := []struct {
 		name     string
-		s1       Set
-		s2       Set
-		expected Set
+		s1       set.Set
+		s2       set.Set
+		expected set.Set
 	}{
 		{
 			name:     "union of disjoint sets",
-			s1:       New(1, 2, 3),
-			s2:       New(4, 5, 6),
-			expected: New(1, 2, 3, 4, 5, 6),
+			s1:       set.New(1, 2, 3),
+			s2:       set.New(4, 5, 6),
+			expected: set.New(1, 2, 3, 4, 5, 6),
 		},
 		{
 			name:     "union of overlapping sets",
-			s1:       New(1, 2, 3),
-			s2:       New(3, 4, 5),
-			expected: New(1, 2, 3, 4, 5),
+			s1:       set.New(1, 2, 3),
+			s2:       set.New(3, 4, 5),
+			expected: set.New(1, 2, 3, 4, 5),
 		},
 		{
 			name:     "union of same sets",
-			s1:       New(1, 2, 3),
-			s2:       New(1, 2, 3),
-			expected: New(1, 2, 3),
+			s1:       set.New(1, 2, 3),
+			s2:       set.New(1, 2, 3),
+			expected: set.New(1, 2, 3),
 		},
 	}
 	for _, test := range table {
@@ -165,27 +166,27 @@ func TestUnion(t *testing.T) {
 func TestIntersection(t *testing.T) {
 	table := []struct {
 		name     string
-		s1       Set
-		s2       Set
-		expected Set
+		s1       set.Set
+		s2       set.Set
+		expected set.Set
 	}{
 		{
 			name:     "intersection of disjoint sets",
-			s1:       New(1, 2, 3),
-			s2:       New(4, 5, 6),
-			expected: New(),
+			s1:       set.New(1, 2, 3),
+			s2:       set.New(4, 5, 6),
+			expected: set.New(),
 		},
 		{
 			name:     "intersection of overlapping sets",
-			s1:       New(1, 2, 3),
-			s2:       New(3, 4, 5),
-			expected: New(3),
+			s1:       set.New(1, 2, 3),
+			s2:       set.New(3, 4, 5),
+			expected: set.New(3),
 		},
 		{
 			name:     "intersection of same sets",
-			s1:       New(1, 2, 3),
-			s2:       New(1, 2, 3),
-			expected: New(1, 2, 3),
+			s1:       set.New(1, 2, 3),
+			s2:       set.New(1, 2, 3),
+			expected: set.New(1, 2, 3),
 		},
 	}
 	for _, test := range table {
@@ -202,27 +203,27 @@ func TestIntersection(t *testing.T) {
 func TestDifference(t *testing.T) {
 	table := []struct {
 		name     string
-		s1       Set
-		s2       Set
-		expected Set
+		s1       set.Set
+		s2       set.Set
+		expected set.Set
 	}{
 		{
 			name:     "difference of disjoint sets",
-			s1:       New(1, 2, 3),
-			s2:       New(4, 5, 6),
-			expected: New(1, 2, 3),
+			s1:       set.New(1, 2, 3),
+			s2:       set.New(4, 5, 6),
+			expected: set.New(1, 2, 3),
 		},
 		{
 			name:     "difference of overlapping sets",
-			s1:       New(1, 2, 3),
-			s2:       New(3, 4, 5),
-			expected: New(1, 2),
+			s1:       set.New(1, 2, 3),
+			s2:       set.New(3, 4, 5),
+			expected: set.New(1, 2),
 		},
 		{
 			name:     "difference of same sets",
-			s1:       New(1, 2, 3),
-			s2:       New(1, 2, 3),
-			expected: New(),
+			s1:       set.New(1, 2, 3),
+			s2:       set.New(1, 2, 3),
+			expected: set.New(),
 		},
 	}
 	for _, test := range table {
