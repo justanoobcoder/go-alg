@@ -42,6 +42,77 @@ func TestNew(t *testing.T) {
 	}
 }
 
+func TestGetValueAt(t *testing.T) {
+	table := []struct {
+		name      string
+		input     []int
+		index     int
+		expected  int
+		expectErr error
+	}{
+		{
+			name:      "get value at index 0 of an empty linkedlist",
+			input:     []int{},
+			index:     0,
+			expected:  0,
+			expectErr: errors.New("index is out of range"),
+		},
+		{
+			name:      "get value at index 0 of a linkedlist that has 1 node",
+			input:     []int{1},
+			index:     0,
+			expected:  1,
+			expectErr: nil,
+		},
+		{
+			name:      "get value at index 0 of a linkedlist that has 2 nodes",
+			input:     []int{1, 2},
+			index:     0,
+			expected:  1,
+			expectErr: nil,
+		},
+		{
+			name:      "get value at index 1 of a linkedlist that has 2 nodes",
+			input:     []int{1, 2},
+			index:     1,
+			expected:  2,
+			expectErr: nil,
+		},
+		{
+			name:      "get value at index 2 of a linkedlist that has 2 nodes",
+			input:     []int{1, 2},
+			index:     2,
+			expected:  0,
+			expectErr: errors.New("index is out of range"),
+		},
+		{
+			name:      "get value at index -1 of a linkedlist that has 2 nodes",
+			input:     []int{1, 2},
+			index:     -1,
+			expected:  0,
+			expectErr: errors.New("index is invalid"),
+		},
+	}
+	for _, test := range table {
+		t.Run(test.name, func(t *testing.T) {
+			list := linkedlist.NewSingly(test.input...)
+			got, err := list.GetValueAt(test.index)
+			if test.expectErr == nil && err != nil {
+				t.Errorf("expected no err, actual %q", err)
+			}
+			if test.expectErr != nil && err == nil {
+				t.Errorf("expected err %q, actual no err", test.expectErr)
+			}
+			if test.expectErr != nil && err.Error() != test.expectErr.Error() {
+				t.Errorf("expected error message %q, acutal error message %q", test.expectErr, err)
+			}
+			if test.expected != got {
+				t.Errorf("want %v, got %v", test.expected, got)
+			}
+		})
+	}
+}
+
 func TestBeginInsert(t *testing.T) {
 	data := []int{1, 2, 3}
 	want := []int{3, 2, 1}

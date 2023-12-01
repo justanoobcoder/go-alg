@@ -169,3 +169,18 @@ func (l *SinglyLinkedlist) DeleteAt(index int) error {
 
 	return nil
 }
+
+func (l *SinglyLinkedlist) GetValueAt(index int) (int, error) {
+	if index < 0 {
+		return 0, errors.New("index is invalid")
+	} else if index >= l.size {
+		return 0, errors.New("index is out of range")
+	}
+	curr := l.Head
+	for index > 0 {
+		curr = curr.Next
+		index--
+	}
+
+	return curr.Val, nil
+}
