@@ -2,13 +2,13 @@ package linkedlist
 
 import "errors"
 
-type Node struct {
+type singlynode struct {
 	Val  int
-	Next *Node
+	Next *singlynode
 }
 
-func newNode(n int, next *Node) *Node {
-	return &Node{
+func NewSinglyNode(n int, next *singlynode) *singlynode {
+	return &singlynode{
 		Val:  n,
 		Next: next,
 	}
@@ -16,7 +16,7 @@ func newNode(n int, next *Node) *Node {
 
 type SinglyLinkedlist struct {
 	size int
-	Head *Node
+	Head *singlynode
 }
 
 func NewSingly(items ...int) *SinglyLinkedlist {
@@ -27,10 +27,10 @@ func NewSingly(items ...int) *SinglyLinkedlist {
 	curr := list.Head
 	for _, n := range items {
 		if curr == nil {
-			list.Head = newNode(n, nil)
+			list.Head = NewSinglyNode(n, nil)
 			curr = list.Head
 		} else {
-			curr.Next = newNode(n, nil)
+			curr.Next = NewSinglyNode(n, nil)
 			curr = curr.Next
 		}
 		list.size++
@@ -44,9 +44,9 @@ func (l *SinglyLinkedlist) Size() int {
 
 func (l *SinglyLinkedlist) BeginInsert(n int) {
 	if l.size == 0 {
-		l.Head = newNode(n, nil)
+		l.Head = NewSinglyNode(n, nil)
 	} else {
-		node := newNode(n, l.Head)
+		node := NewSinglyNode(n, l.Head)
 		l.Head = node
 	}
 	l.size++
@@ -54,9 +54,9 @@ func (l *SinglyLinkedlist) BeginInsert(n int) {
 
 func (l *SinglyLinkedlist) LastInsert(n int) {
 	if l.size == 0 {
-		l.Head = newNode(n, nil)
+		l.Head = NewSinglyNode(n, nil)
 	} else {
-		node := newNode(n, nil)
+		node := NewSinglyNode(n, nil)
 		curr := l.Head
 		for curr.Next != nil {
 			curr = curr.Next
@@ -138,7 +138,7 @@ func (l *SinglyLinkedlist) InsertAt(index, value int) error {
 			curr = curr.Next
 			index--
 		}
-		node := newNode(value, curr.Next)
+		node := NewSinglyNode(value, curr.Next)
 		curr.Next = node
 		l.size++
 	}
