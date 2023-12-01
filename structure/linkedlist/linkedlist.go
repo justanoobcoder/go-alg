@@ -1,5 +1,7 @@
 package linkedlist
 
+import "errors"
+
 type Linkedlist interface {
 	Size() int
 	GetValueAt(index int) (int, error)
@@ -12,3 +14,8 @@ type Linkedlist interface {
 	Sort()
 	Reverse()
 }
+
+var (
+	ErrIndexOutOfRange = errors.New("index out of range")
+	ErrInvalidIndex    = errors.New("invalid index")
+)
