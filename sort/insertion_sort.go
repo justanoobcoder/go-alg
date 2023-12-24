@@ -2,15 +2,17 @@ package sort
 
 // InsertionSort
 // Worst case: O(n^2)
-// Best case: O(n)
+// Best case: O(n) (when dataset's already sorted)
+// Avg case: O(n^2)
 func InsertionSort(arr []int) []int {
-	for i := 1; i < len(arr); i++ {
-		temp := arr[i]
-		idx := i
-		for ; idx > 0 && arr[idx-1] > temp; idx-- {
-			arr[idx] = arr[idx-1]
+	n := len(arr)
+	for i := 1; i < n; i++ {
+		curr := arr[i]
+		j := i - 1
+		for ; j >= 0 && arr[j] > curr; j-- {
+			arr[j+1] = arr[j]
 		}
-		arr[idx] = temp
+		arr[j+1] = curr
 	}
 
 	return arr
