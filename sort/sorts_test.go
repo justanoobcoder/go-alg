@@ -1,9 +1,10 @@
 package sort_test
 
 import (
+	"testing"
+
 	"github.com/justanoobcoder/go-alg/sort"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func runTest(t *testing.T, sortFunc func([]int) []int) {
@@ -46,6 +47,10 @@ func TestQuickSort(t *testing.T) {
 	runTest(t, sort.QuickSort)
 }
 
+func TestMergeSort(t *testing.T) {
+	runTest(t, sort.MergeSort)
+}
+
 // BENCHMARKS
 
 func BenchmarkBubbleSort(b *testing.B) {
@@ -62,6 +67,10 @@ func BenchmarkInsertionSort(b *testing.B) {
 
 func BenchmarkQuickSort(b *testing.B) {
 	runBenchmark(b, sort.QuickSort)
+}
+
+func BenchmarkMergeSort(b *testing.B) {
+	runBenchmark(b, sort.MergeSort)
 }
 
 // PRE-TEST
