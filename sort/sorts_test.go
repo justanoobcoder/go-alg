@@ -51,6 +51,46 @@ func TestMergeSort(t *testing.T) {
 	runTest(t, sort.MergeSort)
 }
 
+func TestCountingSort(t *testing.T) {
+	// create test table for counting sort
+	// which contains only unsigned integers
+	tests := []Test{
+		{
+			name:     "Sorted Unsigned",
+			input:    []int{1, 2, 3, 4, 5, 6, 7, 8, 9},
+			expected: []int{1, 2, 3, 4, 5, 6, 7, 8, 9},
+		},
+		{
+			name:     "Reversed Unsigned",
+			input:    []int{9, 8, 7, 6, 5, 4, 3, 2, 1},
+			expected: []int{1, 2, 3, 4, 5, 6, 7, 8, 9},
+		},
+		{
+			name:     "Random order Unsigned",
+			input:    []int{5, 7, 4, 2, 6, 5, 8, 3, 2, 7, 1, 0, 3, 9, 6, 4, 10, 9, 1, 8},
+			expected: []int{0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10},
+		},
+		{
+			name:     "Only one element",
+			input:    []int{1},
+			expected: []int{1},
+		},
+		{
+			name:     "Empty dataset",
+			input:    []int{},
+			expected: []int{},
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			want := test.expected
+			got := sort.CountingSort(test.input)
+			assert.ElementsMatch(t, want, got)
+		})
+	}
+}
+
 // BENCHMARKS
 
 func BenchmarkBubbleSort(b *testing.B) {
