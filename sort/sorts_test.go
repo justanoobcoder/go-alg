@@ -52,8 +52,6 @@ func TestMergeSort(t *testing.T) {
 }
 
 func TestCountingSort(t *testing.T) {
-	// create test table for counting sort
-	// which contains only unsigned integers
 	tests := []Test{
 		{
 			name:     "Sorted Unsigned",
@@ -86,6 +84,34 @@ func TestCountingSort(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			want := test.expected
 			got := sort.CountingSort(test.input)
+			assert.ElementsMatch(t, want, got)
+		})
+	}
+}
+
+func TestDNFSort(t *testing.T) {
+	tests := []Test{
+		{
+			name:     "Sorted dataset",
+			input:    []int{0, 0, 1, 1, 2, 2, 2, 2, 2},
+			expected: []int{0, 0, 1, 1, 2, 2, 2, 2, 2},
+		},
+		{
+			name:     "Reversed dataset",
+			input:    []int{2, 2, 2, 2, 2, 1, 1, 0, 0},
+			expected: []int{0, 0, 1, 1, 2, 2, 2, 2, 2},
+		},
+		{
+			name:     "Random order dataset",
+			input:    []int{1, 2, 0, 2, 1, 2, 0, 2, 1, 0, 2, 1, 0, 2, 1},
+			expected: []int{0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2},
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			want := test.expected
+			got := sort.DNFSort(test.input, 1)
 			assert.ElementsMatch(t, want, got)
 		})
 	}
